@@ -9,13 +9,9 @@
     <template v-slot:figures>
       <div class="group single maxWidth">
         <figure id="swe-chart-container">
-          <img src="@/assets/diagrams/SWE-sketch.png">
-          <!-- <svg
-            id="swe-chart"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 700 400"
-          >              
-          </svg> -->
+          <!-- <img src="@/assets/diagrams/SWE-sketch.png"> -->
+          <LineChart v-bind:class="[toggleClass]" />
+          <button v-on:click="play">Play again</button>
         </figure>
       </div>
     </template>
@@ -32,22 +28,39 @@
   </VizSection>
 </template>
 <script>
+
 import VizSection from '@/components/VizSection';
+import LineChart from '@/components/LineChart';
+import text from "@/assets/text/sweText";
 export default {
     name: "SWE",
     components:{
+        LineChart,
         VizSection
+    },
+    data() {
+      return {
+        toggleClass: "animation1"
+      };
+    },
+    methods: {
+      play() {
+        // toggle classes to animate the line draw
+        this.toggleClass == "animation1"
+          ? (this.toggleClass = "animation2")
+          : (this.toggleClass = "animation1");
+      }
     }
 }
 </script>
 <style lang="scss" scoped>
-    // #timing-chart {
-    //     background-color: aqua;
-    //     width: 100%;
-    //     height: 100%;
-    // }
+  button { 
+    background: gold;
+    padding: 10px;
+    border-radius: 5px;
+  }
 
-    #swe-chart-container img {
-      width: 100%;
-    }
+    // #swe-chart-container img {
+    //   width: 100%;
+    // }
 </style>
