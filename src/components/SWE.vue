@@ -26,19 +26,33 @@
     <template v-slot:explanation>
       <p>Stuff to explain.</p>
     </template>
+    <Sidebar id="swe-sidebar">
+      <template v-slot:sidebarTitle>
+        Why does the chart start in October?
+      </template>
+      <template v-slot:sidebarMessage>
+        <p>
+          While the calendar year starts January 1st, hydrologists start the "Water Year" on October 1st.  Looking at snow accumulation data reveals why: starting the calendar in the fall before snow begins to fall lets us see the whole precipitation cycle. 
+        </p>
+
+      </template>
+
+    </Sidebar>
   </VizSection>
 </template>
 
 <script>
 import VizSection from '@/components/VizSection';
 import LineChart from '@/components/LineChart';
+import Sidebar from '@/components/Sidebar';
 import * as d3 from 'd3';
 
 export default {
     name: "SWE",
     components:{
         VizSection,
-        LineChart
+        LineChart,
+        Sidebar
     },
     data() {
       return {
