@@ -59,8 +59,8 @@ export default {
         callback(data){
             const self=this;
             this.sweAndDischarge = data[0];
-            console.log(this.sweAndDischarge, "swe and discharge data!")
-            console.log(this.width, this.height, "heh?")
+            // console.log(this.sweAndDischarge, "swe and discharge data!")
+            // console.log(this.width, this.height, "heh?")
             // set chart defaults
 
             // draw the chart
@@ -68,12 +68,13 @@ export default {
         }, 
         initChart(data) {
             const self=this;
-            console.log(data, "aaaand we can access the data from here too yay!")
+            // console.log(data, "aaaand we can access the data from here too yay!")
 
             // Set dimensions of SVG for chart
             this.svg = this.d3.select("#swe-chart")
                 .attr("width", this.width)
-                .attr("height", this.height);
+                .attr("height", this.height)
+                .attr("viewBox", [0,0, this.width, this.height]);
 
              // add a date object to each date in the array
             let parseTime = this.d3.timeParse("%m/%d/%Y");
@@ -84,17 +85,10 @@ export default {
                 })
     
             let filteredData = data.filter(function(day){
-                return day.dateObj.getFullYear() === 2011 // make this a variable selected by interaction
+                return day.dateObj.getFullYear() === 2011 || day.dateObj.getFullYear() === 2012; // make this a variable selected by interaction
             })
 
-            console.log(filteredData, "what about here?")
 
-            
-
-            // create data accessors, haven't implemented them yet
-            const yAccessor = (d) => parseInt(d.SWEin); 
-            const xAccessor = (d) => parseTime(d.dateObj);            
-            
                 
             // Create X Axis
             this.xScale = this.d3.scaleTime()
@@ -124,22 +118,22 @@ export default {
                 .call(this.yAxis);    
 
             // Create Second Y Axis for Discharge
-            this.yScaleDisch = this.d3.scaleLinear()
-                .domain(this.d3.extent(filteredData, function(d) { return d.discharge; }))
-                .range([this.height-this.margin.bottom, this.margin.top]);
-            this.yAxisDisch = this.d3.axisRight(this.yScaleDisch);
-            this.svg.append("g")
-                .attr("transform", `translate(${this.width-this.margin.right},0)`)
-                .attr("class","yAxisDisch");   
-            this.svg.selectAll(".yAxisDisch")
-                .transition()
-                .duration(this.duration)
-                .call(this.yAxisDisch);    
+            // this.yScaleDisch = this.d3.scaleLinear()
+            //     .domain(this.d3.extent(filteredData, function(d) { return d.discharge; }))
+            //     .range([this.height-this.margin.bottom, this.margin.top]);
+            // this.yAxisDisch = this.d3.axisRight(this.yScaleDisch);
+            // this.svg.append("g")
+            //     .attr("transform", `translate(${this.width-this.margin.right},0)`)
+            //     .attr("class","yAxisDisch");   
+            // this.svg.selectAll(".yAxisDisch")
+            //     .transition()
+            //     .duration(this.duration)
+            //     .call(this.yAxisDisch);    
                
             // Create an update selection: bind to the data
             let lineGroup = this.svg.append("g")
                 .attr("class","line-group")
-                .attr("transform", `translate(${this.margin.left},0})`);
+                .attr("transform",`translate(${this.margin.left},0)`);
             
             // create groups for each line
             let groupedData = [{
@@ -151,10 +145,10 @@ export default {
                 }
             ];
             filteredData.forEach(function (day){
-                var todaysDischarge = {
-                    dateObj: day.dateObj,
-                    n: day.discharge
-                }
+                // var todaysDischarge = {
+                //     dateObj: day.dateObj,
+                //     n: day.discharge
+                // }
                 var todaysSWE = {
                     dateObj: day.dateObj,
                     n: day.SWEin
@@ -174,10 +168,10 @@ export default {
                     .attr("stroke-width", 1) 
                     .attr("d", function(d){
                         return d3.line()
-                            // .curve(this.d3.curveMonotoneX)
                             .x(function(d) { return self.xScale(d.dateObj)})
                             .y(function(d) { return self.yScale(d.n)})
                             (d.values)
+                            // .curve(this.d3.curveMonotoneX)
                     });
                 // .merge()
                 // .transition()
@@ -190,9 +184,47 @@ export default {
             // let peakSWE = filteredData.reduce((acc, day) => {
             //     return acc + day.SWEin;
             // });
-            let peakSWE = Math.max.apply(Math.filteredData.map(function(o){return o.SWEin;}));
-            console.log(peakSWE,"Peak")
+
+            // 2011
+            let dataYear2011 = filteredData.filter(function(day){ return day.dateObj.getFullYear() === 2011; });
+            let sweMeasurements2011 = dataYear2011.map(function (day){ return day.SWEin; });
+            let maxSWEday2011 = sweMeasurements2011.indexOf(this.d3.max(sweMeasurements2011));
             
+        
+            console.log("2011 max swe of ", this.d3.max(sweMeasurements2011), "is on", dataYear[maxSWEday2011].dateObj);
+
+
+            
+        
+
+
+            // function findPeakSWEDay(data, year) {
+
+            //     let dataYear = data.filter(function(day){
+            //         return day.dateObj.getFullYear() === year;
+            //     });
+
+            //     let sweMeasurements = dataYear.map(function (day){
+            //         return +day.SWEin;
+            //     });
+            //     console.log(sweMeasurements,"swes")
+                
+
+            //     let maxSWEday = Math.max(sweMeasurements);
+            //     console.log("maxDay", maxSWEday)
+                
+
+            //     let date = dataYear[maxSWEday].dateObj
+            //     console.log(`The day of Peak SWE in ${year} was ${date}.`);
+            //     return date;
+                
+            // };
+
+            // findPeakSWEDay(filteredData, 2011);
+            // findPeakSWEDay(filteredData, 2012);
+
+
+
 
         }
     }
@@ -204,10 +236,7 @@ export default {
         /* background-color: coral; */
     }
 
-    .line {
-        stroke: black;
-        stroke-width: 2px;
-    }
+
 
  
 </style>
