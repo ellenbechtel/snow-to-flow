@@ -59,8 +59,8 @@ export default {
         callback(data){
             const self=this;
             this.sweAndDischarge = data[0];
-            console.log(this.sweAndDischarge, "swe and discharge data!")
-            console.log(this.width, this.height, "heh?")
+            // console.log(this.sweAndDischarge, "swe and discharge data!")
+            // console.log(this.width, this.height, "heh?")
             // set chart defaults
 
             // draw the chart
@@ -68,7 +68,7 @@ export default {
         }, 
         initChart(data) {
             const self=this;
-            console.log(data, "aaaand we can access the data from here too yay!")
+            // console.log(data, "aaaand we can access the data from here too yay!")
 
             // Set dimensions of SVG for chart
             this.svg = this.d3.select("#swe-and-discharge-chart")
@@ -87,7 +87,7 @@ export default {
                 return day.dateObj.getFullYear() === 2011 // make this a variable selected by interaction
             })
 
-            console.log(filteredData, "what about here?")
+            // console.log(filteredData, "what about here?")
 
             
 
@@ -182,7 +182,7 @@ export default {
                 // .merge()
                 // .transition()
                 // .duration(this.duration);
-                 console.log("what's happening??!");
+                //  console.log("what's happening??!");
             // add annotation
             
             // find date of peak swe
