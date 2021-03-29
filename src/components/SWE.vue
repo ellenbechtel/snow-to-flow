@@ -65,7 +65,7 @@ export default {
     name: "SWE",
     components:{
         VizSection,
-        LineChart,
+        // LineChart,
         LineChartSWEandDischarge,
         Sidebar
     },
