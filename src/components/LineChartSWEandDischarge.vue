@@ -1,6 +1,12 @@
 <template>
   <div id="swe-chart-container">
-    <svg id="swe-and-discharge-chart">
+    <svg 
+      id="swe-and-discharge-chart"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      aria-labelledby="page-title page-desc"
+      width="100%"
+    >
       <g id="title">
         <text
           class="demo-text"
@@ -15,7 +21,7 @@
 </template>
 
 <script>
-import * as d3 from 'd3';
+import * as d3Base from 'd3';
 
 
 export default {
@@ -23,16 +29,16 @@ export default {
    
     data() {
         return {
+            title: process.env.VUE_APP_TITLE,
             publicPath: process.env.BASE_URL, // this is need for the data files in the public folder, this allows the application to find the files when on different deployment roots
             d3: null,
             svg: null, // not sure
-            width: null,
-            height: null,
+            width: 600,
+            height: 400,
             margin: { top: 50, right: 50, bottom: 50, left: 50 },
             timeFormat: "%B",
             x: null,
-            y: null,
-            selectedYear: null, // this can be selected by a button
+            y: null
 
             // animation elements
             duration: 1000 // 1 second
@@ -40,7 +46,8 @@ export default {
         };
     },
     mounted (){
-        this.d3 = Object.assign(d3);
+        const self=this;
+        this.d3 = Object.assign(d3Base);
         
         //insert resize here
         this.width = window.innerWidth - this.margin.left - this.margin.right;
@@ -54,6 +61,8 @@ export default {
             const self=this;
 
             let promises = [self.d3.csv(self.publicPath + "data/swe_and_discharge_data.csv", this.d3.autoType)]
+            // add any more datasets into this array above
+
             Promise.all(promises).then(self.callback);
         },
         callback(data){

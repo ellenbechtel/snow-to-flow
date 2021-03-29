@@ -30,7 +30,8 @@
       <div class="group single maxWidth">
         <figure id="swe-chart-container">
           <!-- <img src="@/assets/diagrams/SWE-sketch.png"> -->
-          <LineChart />
+          <!-- <LineChart /> -->
+          <LineChartSWEandDischarge/>
         </figure>
       </div>
     </template>
@@ -55,7 +56,8 @@
 
 <script>
 import VizSection from '@/components/VizSection';
-import LineChart from '@/components/LineChart';
+// import LineChart from '@/components/LineChart';
+import LineChartSWEandDischarge from '@/components/LineChartSWEandDischarge';
 import Sidebar from '@/components/Sidebar';
 import * as d3 from 'd3';
 
@@ -64,6 +66,7 @@ export default {
     components:{
         VizSection,
         LineChart,
+        LineChartSWEandDischarge,
         Sidebar
     },
     data() {
